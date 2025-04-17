@@ -25,10 +25,34 @@ public class GunBase : MonoBehaviour
 
     public virtual void Shoot()
     {
-        var projectile = Instantiate(prefabProjectile);
-        projectile.transform.position = positionToshoot.position;
-        projectile.transform.rotation = positionToshoot.rotation;
-        projectile.speed = speed;   
+        if(prefabProjectile == null)
+        {
+            Debug.LogError("Prefab projectile is not assigned");
+            return;
+        }
+        if(positionToshoot == null)
+        {
+            Debug.LogError("Position to shoot is not assigned");
+            return;
+        }
+
+
+        var projectile = Instantiate(prefabProjectile, positionToshoot.position, positionToshoot.rotation);
+        //projectile.transform.position = positionToshoot.position;
+        //projectile.transform.rotation = positionToshoot.rotation;
+        
+        Rigidbody rb = projectile.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.velocity = positionToshoot.forward * speed;
+        }
+
+        else
+        {
+            Debug.LogError("Projectile does not have a Rigidbody component");
+        }
+
+        Destroy(projectile.gameObject, projectile.timeToDestroy);
 
     }
 
