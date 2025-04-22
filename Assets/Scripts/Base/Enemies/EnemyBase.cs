@@ -91,16 +91,7 @@ namespace Enemy
             OnDamage(damage);
         }
 
-        //debug
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                OnDamage(5f);
-            }
-
-
-        }
+     
 
     }
 }

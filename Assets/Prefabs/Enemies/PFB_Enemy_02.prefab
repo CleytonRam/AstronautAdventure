@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9115035698201778834}
-  - component: {fileID: 74083179894669174}
   - component: {fileID: 8317892363862230333}
   - component: {fileID: 6006938937568670321}
+  - component: {fileID: 1940241261425914076}
   m_Layer: 0
   m_Name: PFB_Enemy_02
   m_TagString: Untagged
@@ -36,28 +36,6 @@ Transform:
   - {fileID: 492235716789890012}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -183.854, z: 0}
---- !u!114 &74083179894669174
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3577915552450872793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 511663b801b56814bb0c4c7259416df8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collider: {fileID: 8317892363862230333}
-  startLife: 20
-  _currentLife: 0
-  _animationBase: {fileID: 6006938937568670321}
-  particleSystem: {fileID: 7085507584620324463}
-  particlesAmount: 25
-  flashColor: {fileID: 1969592493450999732}
-  startAnimationDuration: 0.2
-  startAnimationEase: 27
-  startWithBornAnimation: 1
 --- !u!65 &8317892363862230333
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -101,6 +79,35 @@ MonoBehaviour:
     trigger: Attack
   - animationType: 4
     trigger: Death
+--- !u!114 &1940241261425914076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3577915552450872793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06d48baf78805454a9395e594286a438, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collider: {fileID: 8317892363862230333}
+  startLife: 10
+  _currentLife: 0
+  _animationBase: {fileID: 6006938937568670321}
+  particleSystem: {fileID: 7085507584620324463}
+  particlesAmount: 25
+  flashColor: {fileID: 1969592493450999732}
+  startAnimationDuration: 0.2
+  startAnimationEase: 27
+  startWithBornAnimation: 1
+  waypoints:
+  - {fileID: 3577915552450872793}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  minDistane: 1
+  speed: 3
 --- !u!1 &5983217338413858830
 GameObject:
   m_ObjectHideFlags: 0
