@@ -27,7 +27,10 @@ public class ProjectileBase : MonoBehaviour
 
         if (damageable != null)
         {
-            damageable.Damage(dameAmount);
+            Vector3 dir = collision.transform.position - transform.position;
+            dir = -dir.normalized;
+            dir.y = 0;
+            damageable.Damage(dameAmount,dir);
         }
 
         var projectille = collision.gameObject.GetComponent<ProjectileBase>();

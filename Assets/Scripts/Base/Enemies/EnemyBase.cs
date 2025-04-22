@@ -90,8 +90,10 @@ namespace Enemy
             Debug.Log("Damage dealt");
             OnDamage(damage);
         }
-
-     
-
+        public void Damage(float damage , Vector3 dir)
+        {
+           OnDamage(damage);
+           transform.DOMove(transform.position - dir, .1f);
+        }
     }
 }

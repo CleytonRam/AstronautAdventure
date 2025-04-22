@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 namespace Enemy
 {
@@ -10,6 +11,8 @@ namespace Enemy
         public GameObject[] waypoints;
         public float minDistane = 1f;
         public float speed = 1f;
+        public float lookAtSpeed = 1f;
+        public Ease ease = Ease.Linear;
 
         private int _index = 0;
 
@@ -26,6 +29,9 @@ namespace Enemy
             }
 
             transform.position = Vector3.MoveTowards(transform.position, waypoints[_index].transform.position, Time.deltaTime * speed);
+
+            Vector3 targetPosition = waypoints[_index].transform.position;
+            transform.DOLookAt(targetPosition, lookAtSpeed).SetEase(ease);
         }
     }
 }
