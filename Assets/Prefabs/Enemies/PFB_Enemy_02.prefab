@@ -56,8 +56,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.7270246, y: 4.29249, z: 1}
-  m_Center: {x: 0.26815844, y: 1.8158422, z: 4.063554e-10}
+  m_Size: {x: 6.6275635, y: 7.978743, z: 5.633587}
+  m_Center: {x: -0.35617065, y: 3.6589692, z: -0.015859604}
 --- !u!114 &6006938937568670321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,11 +92,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06d48baf78805454a9395e594286a438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 8317892363862230333}
+  enemyCollider: {fileID: 0}
   startLife: 10
   _currentLife: 0
+  lookAtPlayer: 0
   _animationBase: {fileID: 6006938937568670321}
-  particleSystem: {fileID: 7085507584620324463}
+  particleSystems: {fileID: 0}
   particlesAmount: 25
   flashColor: {fileID: 1969592493450999732}
   startAnimationDuration: 0.2

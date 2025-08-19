@@ -7,7 +7,7 @@ namespace Enemy
 {
     public class EnemyBase : MonoBehaviour, IDamageable
     {
-        public Collider collider;
+        public Collider enemyCollider;
         public float startLife = 10f;
         [SerializeField] private float _currentLife;
         public bool lookAtPlayer = false;
@@ -56,9 +56,9 @@ namespace Enemy
         }
         protected virtual void OnKill()
         {
-            if(collider != null)
+            if(enemyCollider != null)
             {
-                collider.enabled = false;
+                enemyCollider.enabled = false;
             }
             Destroy(gameObject, 3f);
             PlayAnimationByTrigger(AnimationType.DEATH);

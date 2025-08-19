@@ -47,7 +47,7 @@ public class ProjectileBase : MonoBehaviour
         var projectille = collision.gameObject.GetComponent<ProjectileBase>();
         if (projectille == null)
         {
-            Destroy(projectille.gameObject);
+            Destroy(gameObject);
         }
     }
 }
