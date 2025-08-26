@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ebac.StateMachine;
+using DG.Tweening;
 
 
 namespace Boss { 
@@ -29,6 +30,10 @@ namespace Boss {
         public override void OnStateEnter(params object[] objs)
         {
             base.OnStateEnter(objs);
+            if (boss.Player != null)
+            {
+                boss.transform.DOLookAt(boss.Player.transform.position, boss.lookAtDuration).SetEase(boss.lookAtEase);
+            }
             boss.GoToRandomPoint(OnArrive);
             Debug.Log("Boss walking");
         }
@@ -47,11 +52,15 @@ namespace Boss {
     }
     public class BossStateAttack : BossStateBase
     {
+
         public override void OnStateEnter(params object[] objs)
         {
             base.OnStateEnter(objs);
+            if (boss.Player != null)
+            {
+                boss.transform.DOLookAt(boss.Player.transform.position, boss.lookAtDuration).SetEase(boss.lookAtEase);
+            }
             boss.StartAttack(EndAttacks);
-
         }
         private void EndAttacks()
         {
@@ -63,7 +72,6 @@ namespace Boss {
             base.OnStateExit();
             boss.StopAllCoroutines();
         }
-
     }
 
 

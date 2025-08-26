@@ -16,7 +16,7 @@ namespace Enemy
 
         private int _index = 0;
 
-        public override void Update()
+        protected override void Update()
         {
             if (Vector3.Distance(transform.position, waypoints[_index].transform.position) < minDistane)
             {

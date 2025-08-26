@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Animation;
+using Unity.VisualScripting;
 namespace Enemy
 {
     public class EnemyBase : MonoBehaviour, IDamageable
@@ -30,7 +31,7 @@ namespace Enemy
         {
             Init();
         }
-        private void Start()
+        protected virtual void Start()
         {
             _player = GameObject.FindObjectOfType<Player>();
         }
@@ -112,7 +113,7 @@ namespace Enemy
                 p.Damage(1);
             }
         }
-        public virtual void Update()
+        protected virtual void Update()
         {
             if (lookAtPlayer) 
             {

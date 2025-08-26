@@ -1,14 +1,13 @@
+// BossBase.cs
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ebac.StateMachine;
-using System.Security.Cryptography;
 using DG.Tweening;
 
 namespace Boss
 {
-
     public enum BossAction
     {
         INIT,
@@ -17,32 +16,58 @@ namespace Boss
         ATTACK,
         DEATH
     }
-    public class BossBase : MonoBehaviour
+    public class BossBase : MonoBehaviour, IDamageable
     {
-
         [Header("Animation")]
         public float startAnimationDuration = .5f;
         public Ease startAnimationEase = Ease.OutBack;
+        public float lookAtDuration = 0.5f;
+        public Ease lookAtEase = Ease.OutQuad;
 
         [Header("Attack")]
         public int attackAmount = 5;
-        public float timeBetweenAttacks = 0.5f; 
+        public float timeBetweenAttacks = 0.5f;
 
         [Header("Stats")]
         public float speed = 5f;
         public List<Transform> wayPoints;
         public HealthBase healthBase;
 
+        [Header("Ranged Attack")]
+        public GameObject projectilePrefab;
+        public Transform projectileSpawnPoint;
+
         private StateMachine<BossAction> stateMachine;
+        private Player _player;
+        private bool isActive = false;
+        private bool isInitialized = false;
 
         private void Awake()
         {
-            Init();
-            healthBase.OnKill += OnBossKill;
-
+          
         }
+
+        private void Start()
+        {
+        }
+
+        public Player Player
+        {
+            get
+            {
+                if (_player == null) 
+                {
+                    _player = GameObject.FindObjectOfType<Player>();
+                }
+                return _player;
+            }
+        }
+
         private void Init()
         {
+            if (isInitialized) return;
+            isInitialized = true;
+
             stateMachine = new StateMachine<BossAction>();
             stateMachine.Init();
 
@@ -51,31 +76,59 @@ namespace Boss
             stateMachine.RegisterStates(BossAction.ATTACK, new BossStateAttack());
             stateMachine.RegisterStates(BossAction.DEATH, new BossStateDeath());
 
-
-
-
+            if(healthBase != null)
+            {
+                healthBase.OnKill += OnBossKill;
+            }
+            else
+            {
+                Debug.LogWarning("HealthBase not assigned in " + gameObject.name);
+            }
         }
-        private void OnBossKill(HealthBase h) 
+
+        public void StartBoss()
         {
-          SwitchState(BossAction.DEATH);
+            if (!isActive)
+            {
+                isActive = true;
+                Init();
+                SwitchState(BossAction.INIT);
+            }
         }
+
+        private void OnBossKill(HealthBase h)
+        {
+            SwitchState(BossAction.DEATH);
+        }
+
         #region ATTACK
         public void StartAttack(Action endCallback = null)
         {
             StartCoroutine(AttackCoroutine(endCallback));
         }
+
         IEnumerator AttackCoroutine(Action endCallback)
         {
             int attacks = 0;
-            while(attacks < attackAmount)
+            while (attacks < attackAmount)
             {
                 attacks++;
                 transform.DOScale(1.1f, .1f).SetLoops(2, LoopType.Yoyo);
                 yield return new WaitForSeconds(timeBetweenAttacks);
+                ShootProjectile();
             }
             endCallback?.Invoke();
         }
+
+        public void ShootProjectile()
+        {
+            if (projectilePrefab && projectileSpawnPoint)
+            {
+                Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+            }
+        }
         #endregion
+
         #region WALK
         public void GoToRandomPoint(Action onArrive = null)
         {
@@ -116,17 +169,41 @@ namespace Boss
         {
             SwitchState(BossAction.ATTACK);
         }
-
-
+        [NaughtyAttributes.Button]
+        private void ThrowAttack()
+        {
+            if (projectilePrefab && projectileSpawnPoint)
+            {
+                Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+            }
+        }
         #endregion
-
 
         #region STATE MACHINE
         public void SwitchState(BossAction state)
         {
-            stateMachine.SwitchState(state, this);
+            if (stateMachine != null)
+            {
+                stateMachine.SwitchState(state, this);
+            }
+            else
+            {
+                Debug.LogWarning("State machine not initialized");
+            }
         }
+
         #endregion
 
+        #region DAMAGE SYSTEM
+        public void Damage(float damage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Damage(float damage, Vector3 dir)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }
