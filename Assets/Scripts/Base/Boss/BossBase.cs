@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ebac.StateMachine;
 using DG.Tweening;
+using Animation;
 
 namespace Boss
 {
@@ -23,6 +24,9 @@ namespace Boss
         public Ease startAnimationEase = Ease.OutBack;
         public float lookAtDuration = 0.5f;
         public Ease lookAtEase = Ease.OutQuad;
+        public FlashColor flashColor;
+        [SerializeField] private AnimationBase _animationBase;
+
 
         [Header("Attack")]
         public int attackAmount = 5;
@@ -32,6 +36,8 @@ namespace Boss
         public float speed = 5f;
         public List<Transform> wayPoints;
         public HealthBase healthBase;
+        private float _currentLife;
+        public Collider bossCollider;
 
         [Header("Ranged Attack")]
         public GameObject projectilePrefab;
@@ -90,6 +96,7 @@ namespace Boss
         {
             if (!isActive)
             {
+                _currentLife = healthBase.startLife;
                 isActive = true;
                 Init();
                 SwitchState(BossAction.INIT);
@@ -151,6 +158,11 @@ namespace Boss
         {
             transform.DOScale(0, startAnimationDuration).SetEase(startAnimationEase).From();
         }
+
+        public void PlayAnimationByTrigger(AnimationType animationType)
+        {
+            _animationBase.PlayAnimationByTrigger(animationType);
+        }
         #endregion
 
         #region DEBUG
@@ -195,14 +207,52 @@ namespace Boss
         #endregion
 
         #region DAMAGE SYSTEM
+
+
+        protected virtual void Kill()
+        {
+
+            OnKill();
+
+        }
+        protected virtual void OnKill()
+        {
+            if (bossCollider != null)
+            {
+                bossCollider.enabled = false;
+            }
+            Destroy(gameObject, 3f);
+          //  PlayAnimationByTrigger(AnimationType.DEATH);
+        }
+
+
+        public void OnDamage(float f)
+        {
+            if (flashColor != null)
+            {
+                flashColor.Flash();
+            }
+            //if (GetComponent<ParticleSystem>() != null)
+            //{
+            //    GetComponent<ParticleSystem>().Emit(particlesAmount);
+            //}
+            _currentLife -= f;
+            if (_currentLife <= 0)
+            {
+                Kill();
+            }
+        }
+
         public void Damage(float damage)
         {
-            throw new NotImplementedException();
+            Debug.Log("Damage dealt");
+            OnDamage(damage);
         }
 
         public void Damage(float damage, Vector3 dir)
         {
-            throw new NotImplementedException();
+            OnDamage(damage);
+            transform.DOMove(transform.position - dir, .1f);
         }
         #endregion
     }
