@@ -7616,6 +7616,7 @@ GameObject:
   - component: {fileID: 1160975775}
   - component: {fileID: 1160975778}
   - component: {fileID: 1160975779}
+  - component: {fileID: 1160975780}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -7669,6 +7670,7 @@ MonoBehaviour:
   jumpHeight: 10
   jumpKey: 32
   runKey: 304
+  healthBase: {fileID: 1160975780}
   animator: {fileID: 1945425734}
   flashColors:
   - {fileID: 753391474}
@@ -7728,6 +7730,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.7143555, y: 3.7490106, z: 2.2929916}
   m_Center: {x: 0.04776001, y: 1.8307927, z: -0.00020599365}
+--- !u!114 &1160975780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160975774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 086b7a0fd47fa4f4bb663f7c118f49d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startLife: 10
+  destroyOnKill: 0
+  _currentLife: 0
 --- !u!1001 &1164845940
 PrefabInstance:
   m_ObjectHideFlags: 0

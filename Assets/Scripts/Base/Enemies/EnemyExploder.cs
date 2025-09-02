@@ -35,23 +35,23 @@ namespace Enemy
 
             float distanceToPlayer = Vector3.Distance(transform.position, explosionPlayer.transform.position);
 
-            // 1. Se estiver perto o suficiente, explode
+            //  Se estiver perto o suficiente, explode
             if (distanceToPlayer <= explosionRadius)
             {
-                Debug.Log("🎯 Player no raio de explosão!");
+                Debug.Log(" Player no raio de explosão!");
                 StartCoroutine(ExplodeAfter());
                 return;
             }
 
-            // 2. Se estiver no alcance de perseguição, persegue o player
+            // Se estiver no alcance de perseguição, persegue o player
             if (distanceToPlayer <= chaseRange && distanceToPlayer > minDistanceToPlayer)
             {
                 ChasePlayer();
             }
-            // 3. Se estiver muito perto, para de perseguir (para não empurrar o player)
+            // Se estiver muito perto, para de perseguir (para não empurrar o player)
             else if (distanceToPlayer <= minDistanceToPlayer)
             {
-                Debug.Log("🛑 Muito perto do player, parando perseguição");
+                Debug.Log("Muito perto do player, parando perseguição");
                 isChasing = false;
             }
             else
@@ -71,7 +71,7 @@ namespace Enemy
             // Olha para o player
             transform.LookAt(explosionPlayer.transform.position);
 
-            Debug.Log("👟 Perseguindo player... Distância: " +
+            Debug.Log(" Perseguindo player... Distância: " +
                      Vector3.Distance(transform.position, explosionPlayer.transform.position));
         }
 
@@ -80,14 +80,14 @@ namespace Enemy
             isExploding = true;
             isChasing = false; // Para de perseguir quando começa a explodir
 
-            Debug.Log($"⏰ Explosão em {explosionDelay} segundos...");
+            Debug.Log($" Explosão em {explosionDelay} segundos...");
 
             // Efeito visual de alerta antes da explosão (piscar, por exemplo)
             StartCoroutine(FlashWarning());
 
             yield return new WaitForSeconds(explosionDelay);
 
-            Debug.Log("💥 CHAMANDO EXPLODE()");
+            Debug.Log(" CHAMANDO EXPLODE()");
             Explode();
         }
 
@@ -111,24 +111,24 @@ namespace Enemy
 
         private void Explode()
         {
-            Debug.Log("💣💣💣 EXPLOSÃO INICIADA!");
+            Debug.Log(" EXPLOSÃO INICIADA!");
 
             Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
-            Debug.Log($"🔍 Encontrou {colliders.Length} colliders no raio");
+            Debug.Log($" Encontrou {colliders.Length} colliders no raio");
 
             foreach (Collider hit in colliders)
             {
                 Player player = hit.GetComponent<Player>();
                 if (player != null)
                 {
-                    Debug.Log($"🎯✅ ACERTOU O PLAYER! Causando {explosionDamage} de dano");
-                    player.Damage(explosionDamage);
+                    Debug.Log($" ACERTOU O PLAYER! Causando {explosionDamage} de dano");
+                    player.healthBase.Damage(explosionDamage);
                 }
 
                 EnemyBase enemy = hit.GetComponent<EnemyBase>();
                 if (enemy != null && enemy != this)
                 {
-                    Debug.Log($"🎯✅ ACERTOU INIMIGO! Causando {explosionDamage} de dano");
+                    Debug.Log($" ACERTOU INIMIGO! Causando {explosionDamage} de dano");
                     enemy.Damage(explosionDamage);
                 }
             }
@@ -162,7 +162,7 @@ namespace Enemy
             explosionPlayer = GameObject.FindObjectOfType<Player>();
             if (explosionPlayer != null)
             {
-                Debug.Log("🧪 Testando perseguição...");
+                Debug.Log("Testando perseguição...");
                 chaseRange = 50f; // Aumenta temporariamente o alcance para testar
             }
         }

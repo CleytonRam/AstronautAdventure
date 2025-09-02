@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IDamageable
+public class Player : MonoBehaviour //,IDamageable
 {
 
     [Header("Player stats")]
@@ -17,6 +18,10 @@ public class Player : MonoBehaviour, IDamageable
     public KeyCode jumpKey = KeyCode.Space;
     public KeyCode runKey = KeyCode.LeftShift;
 
+
+    public HealthBase healthBase;
+
+
     [Header("Animation")]
     public Animator animator;
     [Header("Flash")]
@@ -25,7 +30,19 @@ public class Player : MonoBehaviour, IDamageable
 
     //privates
     private float vSpeed = 0f;
+    private bool _alive = true;
 
+    private void OnValidate()
+    {
+        if (healthBase == null) healthBase = GetComponent<HealthBase>();
+    }
+    private void Awake()
+    {
+        OnValidate();
+        healthBase.OnDamage += Damage;
+        healthBase.OnDamage += OnKill;
+
+    }
 
     void Update()
     {
@@ -70,14 +87,22 @@ public class Player : MonoBehaviour, IDamageable
    
     }
     #region LIFE
-    public void Damage(float damage)
+    private void OnKill(HealthBase health)
+    {
+        if(_alive)
+        {
+            _alive = false;
+            animator.SetTrigger("Death");
+        }
+    }
+    public void Damage(HealthBase health)
     {
         flashColors.ForEach(i => i.Flash());
     }
 
     public void Damage(float damage, Vector3 dir)
     {
-        Damage(damage);
+        //Damage(damage);
     }
     #endregion
 }
