@@ -18,7 +18,7 @@ public class Player : MonoBehaviour //,IDamageable
     public KeyCode jumpKey = KeyCode.Space;
     public KeyCode runKey = KeyCode.LeftShift;
 
-
+    [Header("Health")]
     public HealthBase healthBase;
 
 
@@ -40,12 +40,14 @@ public class Player : MonoBehaviour //,IDamageable
     {
         OnValidate();
         healthBase.OnDamage += Damage;
-        healthBase.OnDamage += OnKill;
+        healthBase.OnKill += OnKill;
 
     }
 
     void Update()
     {
+
+        if (!_alive) return;
         transform.Rotate(0, Input.GetAxis("Horizontal") * turnSpeed * Time.deltaTime, 0);
         
         var inputAxisVertical = Input.GetAxis("Vertical");
@@ -89,7 +91,7 @@ public class Player : MonoBehaviour //,IDamageable
     #region LIFE
     private void OnKill(HealthBase health)
     {
-        if(_alive)
+        if(_alive && healthBase.currentLife <= 0)
         {
             _alive = false;
             animator.SetTrigger("Death");
@@ -103,6 +105,17 @@ public class Player : MonoBehaviour //,IDamageable
     public void Damage(float damage, Vector3 dir)
     {
         //Damage(damage);
+    }
+
+
+    [NaughtyAttributes.Button("Respawn")]
+    public void Respawn()
+    {
+        if (CheckPointManager.Instance.HasCheckPoint()) 
+        {
+            transform.position = CheckPointManager.Instance.GetPositionFromLastCheckPoint();
+            
+        }
     }
     #endregion
 }
