@@ -95,7 +95,17 @@ public class Player : MonoBehaviour //,IDamageable
         {
             _alive = false;
             animator.SetTrigger("Death");
+
+            Invoke(nameof(Revive), 2f);
         }
+    }
+
+    private void Revive() 
+    {
+        _alive = true;
+        healthBase.ResetLife();
+        animator.SetTrigger("Revive");
+        Respawn();
     }
     public void Damage(HealthBase health)
     {
