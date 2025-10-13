@@ -18,6 +18,7 @@ public class GunBase : MonoBehaviour
         while (true)
         {
             Shoot();
+            
             yield return new WaitForSeconds(timeBetweenShoot);
         }
     }
@@ -25,22 +26,12 @@ public class GunBase : MonoBehaviour
 
     public virtual void Shoot()
     {
-        if(prefabProjectile == null)
-        {
-            Debug.LogError("Prefab projectile is not assigned");
-            return;
-        }
-        if(positionToshoot == null)
-        {
-            Debug.LogError("Position to shoot is not assigned");
-            return;
-        }
+        
 
 
         var projectile = Instantiate(prefabProjectile, positionToshoot.position, positionToshoot.rotation);
         //projectile.transform.position = positionToshoot.position;
         //projectile.transform.rotation = positionToshoot.rotation;
-        
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         if (rb != null)
         {
