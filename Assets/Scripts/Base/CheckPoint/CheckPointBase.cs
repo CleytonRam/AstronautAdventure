@@ -6,6 +6,7 @@ public class CheckPointBase : MonoBehaviour
 {
     public MeshRenderer meshRenderer;
     public int key = 01;
+    public Transform spawnPoint;
     
     private string checkpointKey = "CheckPointKey";
     private bool checkpointActivated = false;

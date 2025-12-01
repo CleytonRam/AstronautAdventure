@@ -10,6 +10,25 @@ public class CheckPointManager : Singleton<CheckPointManager>
 
     [SerializeField] private Vector3 _fallbackPosition = new Vector3(0, 1, 0);
 
+    // Adicione inicialização no Awake
+    protected override void Awake()
+    {
+        base.Awake();
+        InitializeCheckPoints();
+    }
+
+    private void InitializeCheckPoints()
+    {
+        // Garantir que a lista está limpa
+        checkPoints.Clear();
+
+        // Encontrar todos os checkpoints na cena
+        CheckPointBase[] allCheckPoints = FindObjectsOfType<CheckPointBase>();
+        checkPoints.AddRange(allCheckPoints);
+
+        // Ordenar por chave (opcional)
+        checkPoints.Sort((a, b) => a.key.CompareTo(b.key));
+    }
 
 
     public bool HasCheckPoint()
@@ -31,10 +50,18 @@ public class CheckPointManager : Singleton<CheckPointManager>
     {
         var checkpoint = checkPoints.Find(i => i.key == lastCheckPoint);
 
-        // Verifica se o checkpoint existe antes de acessá-lo
         if (checkpoint != null)
         {
-            return checkpoint.transform.position;
+            // Verifica se há um spawnPoint específico definido
+            if (checkpoint.spawnPoint != null)
+            {
+                return checkpoint.spawnPoint.position;
+            }
+            else
+            {
+                // Fallback: posição do checkpoint + offset
+                return checkpoint.transform.position + new Vector3(0, 0, 2f);
+            }
         }
         else
         {
