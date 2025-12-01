@@ -122,10 +122,10 @@ public class Player : MonoBehaviour //,IDamageable
     [NaughtyAttributes.Button("Respawn")]
     public void Respawn()
     {
-        if (CheckPointManager.Instance.HasCheckPoint()) 
+        if (CheckPointManager.Instance.HasCheckPoint())
         {
             transform.position = CheckPointManager.Instance.GetPositionFromLastCheckPoint();
-            
+
         }
     }
     #endregion
