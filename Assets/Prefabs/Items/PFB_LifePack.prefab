@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6608854016325354745}
   - component: {fileID: 7617312530593202483}
   m_Layer: 0
-  m_Name: PFB_Coin
+  m_Name: PFB_LifePack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 535.2181, y: -5.5902863, z: 92.19905}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 71967823547947312}
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 343fd1fd1c5e3e54b97993ced5b13598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemType: 0
+  itemType: 1
   compareTag: Player
   _amount: 1
   particleSystem: {fileID: 0}
@@ -126,7 +126,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 320013e4a539592499129bf81c319566, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 02649bcd85578274994a8fab9c5705d3, type: 2}
+      objectReference: {fileID: 2100000, guid: cb2eeb94fdba6b94da202d8caba05947, type: 2}
     - target: {fileID: 919132149155446097, guid: 320013e4a539592499129bf81c319566, type: 3}
       propertyPath: m_Name
       value: MDL_Coin
